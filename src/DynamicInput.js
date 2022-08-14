@@ -16,7 +16,46 @@ const Select = ({ name, value, onInputChangeHandler, options }) => {
 };
 
 const DynamicInput = ({ inputRowList, setInputRowList }) => {
-  const onInputChangeHandler = (e, id) => {};
+  const onInputChangeHandler = (e, id) => {
+    setInputRowList((inputRowList) => {
+      const { name, value } = e.target;
+      return inputRowList.map((inputRow) => {
+        if (inputRow.id === id) {
+          return {
+            ...inputRow,
+            [name]: { ...inputRow[name], value },
+          };
+        } else {
+          return inputRow;
+        }
+      });
+    });
+  };
+
+  const onAddClickHandler = () => {
+    setInputRowList((inputRowList) => {
+      const inputRow = {};
+
+      for (let key in inputRowList[0]) {
+        if (key === 'id') continue;
+        inputRow[key] = { ...inputRowList[0][key], value: '' };
+      }
+
+      if (inputRowList.length === 1) {
+        inputRow.id = 2;
+      } else {
+        inputRow.id = inputRowList[inputRowList.length - 1].id + 1;
+      }
+
+      return inputRowList.concat(inputRow);
+    });
+  };
+
+  const onDeleteClickHandler = (id) => {
+    setInputRowList((inputRowList) => {
+      return inputRowList.filter((inputRow) => inputRow.id !== id);
+    });
+  };
 
   return (
     <div className="inputContainer">
@@ -67,7 +106,11 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
                   return null;
                 }
               })}
-              {id === 1 ? <button>Add</button> : <button>Remove</button>}
+              {id === 1 ? (
+                <button onClick={onAddClickHandler}>Add</button>
+              ) : (
+                <button onClick={() => onDeleteClickHandler(id)}>Remove</button>
+              )}
             </div>
           </React.Fragment>
         );
