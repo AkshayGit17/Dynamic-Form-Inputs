@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import './App.css';
 import DynamicInput from './DynamicInput';
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
       input2: {
         type: 'textarea',
         value: '',
-        placeholder: 'Age',
+        placeholder: 'Bio',
       },
       select1: {
         type: 'select',
@@ -23,7 +22,8 @@ function App() {
         options: [
           { label: 'select a country', value: '' },
           { label: 'India', value: 'india' },
-          { label: 'Japan', value: 'japan' },
+          { label: 'Country 2', value: 'country2' },
+          { label: 'Country 3', value: 'country3' },
         ],
       },
     },
@@ -34,6 +34,7 @@ function App() {
       <DynamicInput
         inputRowList={inputRowList}
         setInputRowList={setInputRowList}
+        rowSeperatorStyles={{ width: '52rem' }}
       />
     </div>
   );

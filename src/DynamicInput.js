@@ -1,8 +1,27 @@
 import React from 'react';
 
-const Select = ({ name, value, onInputChangeHandler, options }) => {
+import styles from './DynamicInput.module.css';
+
+const {
+  inputContainer: containerClass,
+  inputRow: inputRowClass,
+  textbox: textboxClass,
+  textarea: textareaClass,
+  select: selectClass,
+  btn: btnClass,
+  addBtn: addBtnClass,
+  removeBtn: removeBtnClass,
+  rowSeperator: rowSeperatorClass,
+} = styles;
+
+const Select = ({ name, value, onInputChangeHandler, options, className }) => {
   return (
-    <select name={name} value={value} onChange={onInputChangeHandler}>
+    <select
+      name={name}
+      value={value}
+      onChange={onInputChangeHandler}
+      className={className}
+    >
       {options.map((option) => {
         const { label, value } = option;
         return (
@@ -15,7 +34,18 @@ const Select = ({ name, value, onInputChangeHandler, options }) => {
   );
 };
 
-const DynamicInput = ({ inputRowList, setInputRowList }) => {
+const DynamicInput = ({
+  inputRowList,
+  setInputRowList,
+  containerStyles,
+  inputRowStyles,
+  textboxStyles,
+  textareaStyles,
+  selectStyles,
+  addBtnStyles,
+  removeBtnStyles,
+  rowSeperatorStyles,
+}) => {
   const onInputChangeHandler = (e, id) => {
     setInputRowList((inputRowList) => {
       const { name, value } = e.target;
@@ -58,13 +88,13 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
   };
 
   return (
-    <div className="inputContainer">
+    <div className={containerClass} style={containerStyles}>
       {inputRowList.map((inputRow) => {
         const { id } = inputRow;
 
         return (
           <React.Fragment key={id}>
-            <div className="inputRow">
+            <div className={inputRowClass} style={inputRowStyles}>
               {Object.keys(inputRow).map((key) => {
                 if (key === 'id') return null;
                 const { type, value, placeholder, options } = inputRow[key];
@@ -78,6 +108,8 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
                       value={value}
                       onChange={(e) => onInputChangeHandler(e, id)}
                       key={key}
+                      className={textboxClass}
+                      style={textboxStyles}
                     />
                   );
                 } else if (type === 'textarea') {
@@ -88,8 +120,8 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
                       value={value}
                       onChange={(e) => onInputChangeHandler(e, id)}
                       key={key}
-                      rows={10}
-                      cols={4}
+                      className={[textboxClass, textareaClass].join(' ')}
+                      style={textareaStyles}
                     />
                   );
                 } else if (type === 'select') {
@@ -100,6 +132,8 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
                       onInputChangeHandler={(e) => onInputChangeHandler(e, id)}
                       key={key}
                       options={options}
+                      className={[textboxClass, selectClass].join(' ')}
+                      style={selectStyles}
                     />
                   );
                 } else {
@@ -107,11 +141,24 @@ const DynamicInput = ({ inputRowList, setInputRowList }) => {
                 }
               })}
               {id === 1 ? (
-                <button onClick={onAddClickHandler}>Add</button>
+                <button
+                  onClick={onAddClickHandler}
+                  className={[btnClass, addBtnClass].join(' ')}
+                  style={addBtnStyles}
+                >
+                  Add
+                </button>
               ) : (
-                <button onClick={() => onDeleteClickHandler(id)}>Remove</button>
+                <button
+                  onClick={() => onDeleteClickHandler(id)}
+                  className={[btnClass, removeBtnClass].join(' ')}
+                  style={removeBtnStyles}
+                >
+                  Remove
+                </button>
               )}
             </div>
+            <div className={rowSeperatorClass} style={rowSeperatorStyles}></div>
           </React.Fragment>
         );
       })}

@@ -1,0 +1,64 @@
+.inputContainer {
+    width: 65%;
+    margin: 0 auto;
+}
+
+.inputRow {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.textbox {
+    border:2px solid #ced4da;
+    border-radius:4px;
+    margin:0 1rem;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+    color: #495057;
+    font-size: 1rem;
+}
+.textbox:focus{
+    border-color:dodgerBlue;
+    box-shadow:0 0 4px 0 dodgerBlue;
+}
+
+.textarea {
+    resize: none;
+}
+
+.select {
+    background: #fff;
+}
+
+.btn {
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 400;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    margin-left: 2rem;
+    line-height: 1.5;
+    width: 6rem;
+    cursor: pointer;
+}
+
+.addBtn {
+    margin-right: 1.5rem;
+    background: #198754;
+    border: 1px solid #198754;
+}
+
+.removeBtn {
+    background: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.rowSeperator {
+    background: #ced4da;
+    height: 1px;
+    margin-top: 1rem;
+}
+
