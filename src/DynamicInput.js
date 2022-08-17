@@ -37,6 +37,8 @@ const Select = ({ name, value, onInputChangeHandler, options, className }) => {
 const DynamicInput = ({
   inputRowList,
   setInputRowList,
+  maxRows,
+  addSeperator,
   containerStyles,
   inputRowStyles,
   textboxStyles,
@@ -64,6 +66,9 @@ const DynamicInput = ({
 
   const onAddClickHandler = () => {
     setInputRowList((inputRowList) => {
+      if (inputRowList.length === maxRows) {
+        return inputRowList;
+      }
       const inputRow = {};
 
       for (let key in inputRowList[0]) {
@@ -158,7 +163,12 @@ const DynamicInput = ({
                 </button>
               )}
             </div>
-            <div className={rowSeperatorClass} style={rowSeperatorStyles}></div>
+            {addSeperator && (
+              <div
+                className={rowSeperatorClass}
+                style={rowSeperatorStyles}
+              ></div>
+            )}
           </React.Fragment>
         );
       })}

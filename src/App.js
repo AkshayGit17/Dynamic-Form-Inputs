@@ -34,6 +34,8 @@ function App() {
       <DynamicInput
         inputRowList={inputRowList}
         setInputRowList={setInputRowList}
+        maxRows={6}
+        addSeperator
         rowSeperatorStyles={{ width: '52rem' }}
       />
     </div>
