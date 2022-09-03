@@ -12,15 +12,25 @@ const {
   addBtn: addBtnClass,
   removeBtn: removeBtnClass,
   rowSeperator: rowSeperatorClass,
+  error: errorClass,
+  errorMessage: errorMessageClass,
 } = styles;
 
-const Select = ({ name, value, onInputChangeHandler, options, className }) => {
+const Select = ({
+  name,
+  value,
+  onInputChangeHandler,
+  options,
+  className,
+  style,
+}) => {
   return (
     <select
       name={name}
       value={value}
       onChange={onInputChangeHandler}
       className={className}
+      style={style}
     >
       {options.map((option) => {
         const { label, value } = option;
@@ -47,6 +57,8 @@ const DynamicInput = ({
   addBtnStyles,
   removeBtnStyles,
   rowSeperatorStyles,
+  errorStyles,
+  errorMessageStyles,
 }) => {
   const onInputChangeHandler = (e, id) => {
     setInputRowList((inputRowList) => {
@@ -73,7 +85,7 @@ const DynamicInput = ({
 
       for (let key in inputRowList[0]) {
         if (key === 'id') continue;
-        inputRow[key] = { ...inputRowList[0][key], value: '' };
+        inputRow[key] = { ...inputRowList[0][key], value: '', error: false };
       }
 
       if (inputRowList.length === 1) {
@@ -102,44 +114,101 @@ const DynamicInput = ({
             <div className={inputRowClass} style={inputRowStyles}>
               {Object.keys(inputRow).map((key) => {
                 if (key === 'id') return null;
-                const { type, value, placeholder, options } = inputRow[key];
+                const {
+                  type,
+                  value,
+                  placeholder,
+                  options,
+                  requiredMessage,
+                  error,
+                } = inputRow[key];
+
+                const classNames = [textboxClass];
+
+                if (error) {
+                  classNames.push(errorClass);
+                }
 
                 if (type === 'input') {
                   return (
-                    <input
-                      type="text"
-                      name={key}
-                      placeholder={placeholder}
-                      value={value}
-                      onChange={(e) => onInputChangeHandler(e, id)}
-                      key={key}
-                      className={textboxClass}
-                      style={textboxStyles}
-                    />
+                    <div>
+                      <input
+                        type="text"
+                        name={key}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => onInputChangeHandler(e, id)}
+                        key={key}
+                        className={classNames.join(' ')}
+                        style={
+                          error
+                            ? { ...textboxStyles, ...errorStyles }
+                            : textboxStyles
+                        }
+                      />
+                      {error && (
+                        <p
+                          style={errorMessageStyles}
+                          className={errorMessageClass}
+                        >
+                          {requiredMessage}
+                        </p>
+                      )}
+                    </div>
                   );
                 } else if (type === 'textarea') {
                   return (
-                    <textarea
-                      name={key}
-                      placeholder={placeholder}
-                      value={value}
-                      onChange={(e) => onInputChangeHandler(e, id)}
-                      key={key}
-                      className={[textboxClass, textareaClass].join(' ')}
-                      style={textareaStyles}
-                    />
+                    <div>
+                      <textarea
+                        name={key}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => onInputChangeHandler(e, id)}
+                        key={key}
+                        className={[...classNames, textareaClass].join(' ')}
+                        style={
+                          error
+                            ? { ...textareaStyles, ...errorStyles }
+                            : textareaStyles
+                        }
+                      />
+                      {error && (
+                        <p
+                          style={{ ...errorMessageStyles, marginTop: '0' }}
+                          className={errorMessageClass}
+                        >
+                          {requiredMessage}
+                        </p>
+                      )}
+                    </div>
                   );
                 } else if (type === 'select') {
                   return (
-                    <Select
-                      name={key}
-                      value={value}
-                      onInputChangeHandler={(e) => onInputChangeHandler(e, id)}
-                      key={key}
-                      options={options}
-                      className={[textboxClass, selectClass].join(' ')}
-                      style={selectStyles}
-                    />
+                    <div>
+                      <Select
+                        name={key}
+                        value={value}
+                        onInputChangeHandler={(e) =>
+                          onInputChangeHandler(e, id)
+                        }
+                        key={key}
+                        options={options}
+                        className={[...classNames, selectClass].join(' ')}
+                        style={
+                          error
+                            ? { ...selectStyles, ...errorStyles }
+                            : selectStyles
+                        }
+                      />
+                      {error && (
+                        <p
+                          style={errorMessageStyles}
+                          className={errorMessageClass}
+                        >
+                          {requiredMessage}
+                        </p>
+                      )}
+                    </div>
                   );
                 } else {
                   return null;

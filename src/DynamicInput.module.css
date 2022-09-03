@@ -10,7 +10,7 @@
 }
 
 .textbox {
-    border:2px solid #ced4da;
+    border:1px solid #ced4da;
     border-radius:4px;
     margin:0 1rem;
     outline:none;
@@ -60,5 +60,18 @@
     background: #ced4da;
     height: 1px;
     margin-top: 1rem;
+}
+
+.error {
+    border: 1px solid rgb(224 49 49);
+}
+
+.errorMessage {
+    position: absolute;
+    color: rgb(250 82 82);
+    font-size: 12px;
+    margin: 0;
+    padding-left: 1rem;
+    margin-top: 5px;
 }
 

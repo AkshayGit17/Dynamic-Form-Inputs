@@ -10,11 +10,13 @@ function App() {
         type: 'input',
         value: '',
         placeholder: 'Name',
+        requiredMessage: 'Please enter name',
       },
       input2: {
         type: 'textarea',
         value: '',
         placeholder: 'Bio',
+        requiredMessage: 'Please enter bio',
       },
       select1: {
         type: 'select',
@@ -25,9 +27,29 @@ function App() {
           { label: 'Country 2', value: 'country2' },
           { label: 'Country 3', value: 'country3' },
         ],
+        requiredMessage: 'Please select country',
       },
     },
   ]);
+
+  const validate = () => {
+    setInputRowList((inputRowList) => {
+      return inputRowList.map((inputRow) => {
+        const inputRowClone = { ...inputRow };
+        for (let key in inputRowClone) {
+          if (key === 'id') continue;
+          if (inputRowClone[key].hasOwnProperty('requiredMessage')) {
+            if (!inputRowClone[key].value) {
+              inputRowClone[key] = { ...inputRowClone[key], error: true };
+            } else {
+              inputRowClone[key] = { ...inputRowClone[key], error: false };
+            }
+          }
+        }
+        return inputRowClone;
+      });
+    });
+  };
 
   return (
     <div className="App">
