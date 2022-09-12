@@ -6,19 +6,19 @@ function App() {
   const [inputRowList, setInputRowList] = useState([
     {
       id: 1,
-      input1: {
+      name: {
         type: 'input',
         value: '',
         placeholder: 'Name',
         requiredMessage: 'Please enter name',
       },
-      input2: {
+      bio: {
         type: 'textarea',
         value: '',
         placeholder: 'Bio',
         requiredMessage: 'Please enter bio',
       },
-      select1: {
+      country: {
         type: 'select',
         value: '',
         options: [
@@ -51,6 +51,18 @@ function App() {
     });
   };
 
+  const getValues = () => {
+    const values = inputRowList.map((inputRow) => {
+      const inputRowValues = {};
+      for (let key in inputRow) {
+        if (key === 'id') continue;
+        inputRowValues[key] = inputRow[key].value;
+      }
+      return inputRowValues;
+    });
+    console.log(values);
+  };
+
   return (
     <div className="App">
       <DynamicInput
@@ -60,6 +72,8 @@ function App() {
         addSeperator
         rowSeperatorStyles={{ width: '52rem' }}
       />
+      <button onClick={validate}>Click me</button>
+      <button onClick={getValues}>Get Values</button>
     </div>
   );
 }

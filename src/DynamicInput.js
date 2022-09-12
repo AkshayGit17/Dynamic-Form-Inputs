@@ -131,14 +131,13 @@ const DynamicInput = ({
 
                 if (type === 'input') {
                   return (
-                    <div>
+                    <div key={key}>
                       <input
                         type="text"
                         name={key}
                         placeholder={placeholder}
                         value={value}
                         onChange={(e) => onInputChangeHandler(e, id)}
-                        key={key}
                         className={classNames.join(' ')}
                         style={
                           error
@@ -158,13 +157,12 @@ const DynamicInput = ({
                   );
                 } else if (type === 'textarea') {
                   return (
-                    <div>
+                    <div key={key}>
                       <textarea
                         name={key}
                         placeholder={placeholder}
                         value={value}
                         onChange={(e) => onInputChangeHandler(e, id)}
-                        key={key}
                         className={[...classNames, textareaClass].join(' ')}
                         style={
                           error
@@ -184,14 +182,13 @@ const DynamicInput = ({
                   );
                 } else if (type === 'select') {
                   return (
-                    <div>
+                    <div key={key}>
                       <Select
                         name={key}
                         value={value}
                         onInputChangeHandler={(e) =>
                           onInputChangeHandler(e, id)
                         }
-                        key={key}
                         options={options}
                         className={[...classNames, selectClass].join(' ')}
                         style={
