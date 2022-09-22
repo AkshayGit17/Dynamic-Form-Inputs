@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+# Dynamic Form Inputs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dynamic Form Inputs is a utility for adding or removing rows of desired form inputs.
 
-## Available Scripts
+## Usage
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 3 files have been mainly used in this project: App.js, DynamicInput.js and DynamicInput.module.css
+- Have a state in the Component where you want to have DynamicInput Component(In this project we have the state in App Component)
+- Initialize this state with an array having an object(row) with form inputs & this object will be the template for the rest of the rows.Below is the pattern of the state.
+   ```
+    const [inputRowList, setInputRowList] = useState([
+        {
+          id: 1,
+          name: {
+            type: 'input' | 'textarea' | 'select',
+            value: '',
+            placeholder: '',
+            requiredMessage: '',
+            options: []
+          },
+          name: {
+            type: 'input' | 'textarea' | 'select',
+            value: '',
+            placeholder: '',
+            requiredMessage: '',
+            options: []
+          },
+          ...
+          ...
+          ...
+        }
+    ]);
+    ```
+- State example
+  ```
+    const [inputRowList, setInputRowList] = useState([
+        {
+          id: 1,
+          name: {
+            type: 'input',
+            value: '',
+            placeholder: 'Name',
+            requiredMessage: 'Please enter name',
+          },
+          bio: {
+            type: 'textarea',
+            value: '',
+            placeholder: 'Bio',
+            requiredMessage: 'Please enter bio',
+          },
+          country: {
+            type: 'select',
+            value: '',
+            options: [
+              { label: 'select a country', value: '' },
+              { label: 'India', value: 'india' },
+              { label: 'Country 2', value: 'country2' },
+              { label: 'Country 3', value: 'country3' },
+            ],
+            requiredMessage: 'Please select country',
+          },
+        },
+    ]);
+    ```
+- Things to be noted while constructing the state:
+  - id: 1 is a must.
+  - Have name of the input as the property name.This is useful while getting field values.
+    Eg: name, bio and country in the above state example
+  - type for an input can only be input, textarea and select.
+  - options property is applicable only for select input.
+  - If you want to have validation for a particular input field have requiredMessage property.
+  - If you want validation but you dont want message then set requiredMessage property to empty string
+- DynamicInput component props
+  - inputRowList - the above state(array)
+  - setInputRowList - set function for the above state(fn)
+  - maxRows - maximum number of rows that can be added(number)
+  - addSeperator - whether you want seperator after each row or not(boolean)
+  - containerStyles - styles for the Dynamic Input container(object)
+  - inputRowStyles - styles for each row(object)
+  - textboxStyles - general styles for all types of input(object)
+  - textareaStyles - textarea input specific styles(object)
+  - selectStyles - select input specific styles(object)
+  - addBtnStyles - styles for add button(object)
+  - removeBtnStyles - styles for remove button(object)
+  - rowSeperatorStyles - styles for row seperator(object)
+  - errorStyles - styles for input fields on error(object)
+  - errorMessageStyles - styles for error message(object)
+- To get input field values have the below function in the component where you have maintained the state and invoke it.
+  ```
+  const getValues = () => {
+    const values = inputRowList.map((inputRow) => {
+      const inputRowValues = {};
+      for (let key in inputRow) {
+        if (key === 'id') continue;
+        inputRowValues[key] = inputRow[key].value;
+      }
+      return inputRowValues;
+    });
+    return values;
+  };
+- To validate the input fields have the below function in the component where you have maintained the state and invoke it.
+  ```
+  const validate = () => {
+    setInputRowList((inputRowList) => {
+      return inputRowList.map((inputRow) => {
+        const inputRowClone = { ...inputRow };
+        for (let key in inputRowClone) {
+          if (key === 'id') continue;
+          if (inputRowClone[key].hasOwnProperty('requiredMessage')) {
+            if (!inputRowClone[key].value) {
+              inputRowClone[key] = { ...inputRowClone[key], error: true };
+            } else {
+              inputRowClone[key] = { ...inputRowClone[key], error: false };
+            }
+          }
+        }
+        return inputRowClone;
+      });
+    });
+  };
+- Demo: https://codesandbox.io/s/dynamic-input-kwz53q

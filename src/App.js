@@ -60,7 +60,7 @@ function App() {
       }
       return inputRowValues;
     });
-    console.log(values);
+    return values;
   };
 
   return (
@@ -72,8 +72,6 @@ function App() {
         addSeperator
         rowSeperatorStyles={{ width: '52rem' }}
       />
-      <button onClick={validate}>Click me</button>
-      <button onClick={getValues}>Get Values</button>
     </div>
   );
 }
