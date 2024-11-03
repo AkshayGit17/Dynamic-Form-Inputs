@@ -8,62 +8,61 @@ Dynamic Form Inputs is a utility for adding or removing rows of desired form inp
 - Have a state in the Component where you want to have DynamicInput Component(In this project we have the state in App Component)
 - Initialize this state with an array having an object(row) with form inputs & this object will be the template for the rest of the rows.Below is the pattern of the state.
   ```
-   const [inputRowList, setInputRowList] = useState([
-       {
-         id: 1,
-         name: {
-           type: 'input' | 'textarea' | 'select',
-           value: '',
-           placeholder: '',
-           requiredMessage: '',
-           options: []
-         },
-         name: {
-           type: 'input' | 'textarea' | 'select',
-           value: '',
-           placeholder: '',
-           requiredMessage: '',
-           options: []
-         },
-         ...
-         ...
-         ...
-       }
-   ]);
+   [
+      {
+        id: uuidv4(),
+        name: {
+          type: 'input' | 'textarea' | 'select',
+          value: '',
+          placeholder: '',
+          requiredMessage: '',
+          options: []
+        },
+        name: {
+          type: 'input' | 'textarea' | 'select',
+          value: '',
+          placeholder: '',
+          requiredMessage: '',
+          options: []
+        },
+        ...
+        ...
+        ...
+      }
+   ]
   ```
 - State example
   ```
-    const [inputRowList, setInputRowList] = useState([
-        {
-          id: 1,
-          name: {
-            type: 'input',
-            value: '',
-            placeholder: 'Name',
-            requiredMessage: 'Please enter name',
-          },
-          bio: {
-            type: 'textarea',
-            value: '',
-            placeholder: 'Bio',
-            requiredMessage: 'Please enter bio',
-          },
-          country: {
-            type: 'select',
-            value: '',
-            options: [
-              { label: 'select a country', value: '' },
-              { label: 'India', value: 'india' },
-              { label: 'Country 2', value: 'country2' },
-              { label: 'Country 3', value: 'country3' },
-            ],
-            requiredMessage: 'Please select country',
-          },
+    [
+      {
+        id: uuidv4(),
+        name: {
+          type: "input",
+          value: "",
+          placeholder: "Name",
+          requiredMessage: "Please enter name",
         },
-    ]);
+        bio: {
+          type: "textarea",
+          value: "",
+          placeholder: "Bio",
+          requiredMessage: "Please enter bio",
+        },
+        country: {
+          type: "select",
+          value: "",
+          options: [
+            { label: "select a country", value: "" },
+            { label: "India", value: "india" },
+            { label: "Country 2", value: "country2" },
+            { label: "Country 3", value: "country3" },
+          ],
+          requiredMessage: "Please select country",
+        },
+      },
+    ]
   ```
 - Things to be noted while constructing the state:
-  - id: 1 is a must.
   - Have name of the input as the property name.This is useful while getting field values.
     Eg: name, bio and country in the above state example
   - type for an input can only be input, textarea and select.
