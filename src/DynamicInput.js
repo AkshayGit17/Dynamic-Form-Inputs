@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import styles from './DynamicInput.module.css';
+import styles from "./DynamicInput.module.css";
 
 const {
   inputContainer: containerClass,
@@ -84,15 +85,11 @@ const DynamicInput = ({
       const inputRow = {};
 
       for (let key in inputRowList[0]) {
-        if (key === 'id') continue;
-        inputRow[key] = { ...inputRowList[0][key], value: '', error: false };
+        if (key === "id") continue;
+        inputRow[key] = { ...inputRowList[0][key], value: "", error: false };
       }
 
-      if (inputRowList.length === 1) {
-        inputRow.id = 2;
-      } else {
-        inputRow.id = inputRowList[inputRowList.length - 1].id + 1;
-      }
+      inputRow.id = uuidv4();
 
       return inputRowList.concat(inputRow);
     });
@@ -106,14 +103,14 @@ const DynamicInput = ({
 
   return (
     <div className={containerClass} style={containerStyles}>
-      {inputRowList.map((inputRow) => {
+      {inputRowList.map((inputRow, index) => {
         const { id } = inputRow;
 
         return (
           <React.Fragment key={id}>
             <div className={inputRowClass} style={inputRowStyles}>
               {Object.keys(inputRow).map((key) => {
-                if (key === 'id') return null;
+                if (key === "id") return null;
                 const {
                   type,
                   value,
@@ -129,7 +126,7 @@ const DynamicInput = ({
                   classNames.push(errorClass);
                 }
 
-                if (type === 'input') {
+                if (type === "input") {
                   return (
                     <div key={key}>
                       <input
@@ -138,7 +135,7 @@ const DynamicInput = ({
                         placeholder={placeholder}
                         value={value}
                         onChange={(e) => onInputChangeHandler(e, id)}
-                        className={classNames.join(' ')}
+                        className={classNames.join(" ")}
                         style={
                           error
                             ? { ...textboxStyles, ...errorStyles }
@@ -155,7 +152,7 @@ const DynamicInput = ({
                       )}
                     </div>
                   );
-                } else if (type === 'textarea') {
+                } else if (type === "textarea") {
                   return (
                     <div key={key}>
                       <textarea
@@ -163,7 +160,7 @@ const DynamicInput = ({
                         placeholder={placeholder}
                         value={value}
                         onChange={(e) => onInputChangeHandler(e, id)}
-                        className={[...classNames, textareaClass].join(' ')}
+                        className={[...classNames, textareaClass].join(" ")}
                         style={
                           error
                             ? { ...textareaStyles, ...errorStyles }
@@ -172,7 +169,7 @@ const DynamicInput = ({
                       />
                       {error && (
                         <p
-                          style={{ ...errorMessageStyles, marginTop: '0' }}
+                          style={{ ...errorMessageStyles, marginTop: "0" }}
                           className={errorMessageClass}
                         >
                           {requiredMessage}
@@ -180,7 +177,7 @@ const DynamicInput = ({
                       )}
                     </div>
                   );
-                } else if (type === 'select') {
+                } else if (type === "select") {
                   return (
                     <div key={key}>
                       <Select
@@ -190,7 +187,7 @@ const DynamicInput = ({
                           onInputChangeHandler(e, id)
                         }
                         options={options}
-                        className={[...classNames, selectClass].join(' ')}
+                        className={[...classNames, selectClass].join(" ")}
                         style={
                           error
                             ? { ...selectStyles, ...errorStyles }
@@ -211,10 +208,10 @@ const DynamicInput = ({
                   return null;
                 }
               })}
-              {id === 1 ? (
+              {index === 0 ? (
                 <button
                   onClick={onAddClickHandler}
-                  className={[btnClass, addBtnClass].join(' ')}
+                  className={[btnClass, addBtnClass].join(" ")}
                   style={addBtnStyles}
                 >
                   Add
@@ -222,7 +219,7 @@ const DynamicInput = ({
               ) : (
                 <button
                   onClick={() => onDeleteClickHandler(id)}
-                  className={[btnClass, removeBtnClass].join(' ')}
+                  className={[btnClass, removeBtnClass].join(" ")}
                   style={removeBtnStyles}
                 >
                   Remove

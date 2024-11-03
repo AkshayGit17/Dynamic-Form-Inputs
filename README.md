@@ -7,30 +7,30 @@ Dynamic Form Inputs is a utility for adding or removing rows of desired form inp
 - 3 files have been mainly used in this project: App.js, DynamicInput.js and DynamicInput.module.css
 - Have a state in the Component where you want to have DynamicInput Component(In this project we have the state in App Component)
 - Initialize this state with an array having an object(row) with form inputs & this object will be the template for the rest of the rows.Below is the pattern of the state.
-   ```
-    const [inputRowList, setInputRowList] = useState([
-        {
-          id: 1,
-          name: {
-            type: 'input' | 'textarea' | 'select',
-            value: '',
-            placeholder: '',
-            requiredMessage: '',
-            options: []
-          },
-          name: {
-            type: 'input' | 'textarea' | 'select',
-            value: '',
-            placeholder: '',
-            requiredMessage: '',
-            options: []
-          },
-          ...
-          ...
-          ...
-        }
-    ]);
-    ```
+  ```
+   const [inputRowList, setInputRowList] = useState([
+       {
+         id: 1,
+         name: {
+           type: 'input' | 'textarea' | 'select',
+           value: '',
+           placeholder: '',
+           requiredMessage: '',
+           options: []
+         },
+         name: {
+           type: 'input' | 'textarea' | 'select',
+           value: '',
+           placeholder: '',
+           requiredMessage: '',
+           options: []
+         },
+         ...
+         ...
+         ...
+       }
+   ]);
+  ```
 - State example
   ```
     const [inputRowList, setInputRowList] = useState([
@@ -61,7 +61,7 @@ Dynamic Form Inputs is a utility for adding or removing rows of desired form inp
           },
         },
     ]);
-    ```
+  ```
 - Things to be noted while constructing the state:
   - id: 1 is a must.
   - Have name of the input as the property name.This is useful while getting field values.
@@ -98,6 +98,7 @@ Dynamic Form Inputs is a utility for adding or removing rows of desired form inp
     });
     return values;
   };
+  ```
 - To validate the input fields have the below function in the component where you have maintained the state and invoke it.
   ```
   const validate = () => {
@@ -118,4 +119,24 @@ Dynamic Form Inputs is a utility for adding or removing rows of desired form inp
       });
     });
   };
+  ```
+- To set input field values have the below function in the component where you have maintained the state and invoke it.
+  ```
+  const setValues = () => {
+    setInputRowList((inputRowList) => {
+      return data.map((dataRow, index) => {
+        const inputRow = {};
+        for (let key in dataRow) {
+          inputRow[key] = {
+            ...inputRowList[0][key],
+            value: dataRow[key],
+            error: false,
+          };
+        }
+        inputRow.id = uuidv4();
+        return inputRow;
+      });
+    });
+  };
+  ```
 - Demo: https://codesandbox.io/s/dynamic-input-kwz53q
