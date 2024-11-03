@@ -7,35 +7,37 @@ import styles from "./App.module.css";
 
 import data from "./data.json";
 
-function App() {
-  const [inputRowList, setInputRowList] = useState([
-    {
-      id: uuidv4(),
-      name: {
-        type: "input",
-        value: "",
-        placeholder: "Name",
-        requiredMessage: "Please enter name",
-      },
-      bio: {
-        type: "textarea",
-        value: "",
-        placeholder: "Bio",
-        requiredMessage: "Please enter bio",
-      },
-      country: {
-        type: "select",
-        value: "",
-        options: [
-          { label: "select a country", value: "" },
-          { label: "India", value: "india" },
-          { label: "Country 2", value: "country2" },
-          { label: "Country 3", value: "country3" },
-        ],
-        requiredMessage: "Please select country",
-      },
+const initialState = [
+  {
+    id: uuidv4(),
+    name: {
+      type: "input",
+      value: "",
+      placeholder: "Name",
+      requiredMessage: "Please enter name",
     },
-  ]);
+    bio: {
+      type: "textarea",
+      value: "",
+      placeholder: "Bio",
+      requiredMessage: "Please enter bio",
+    },
+    country: {
+      type: "select",
+      value: "",
+      options: [
+        { label: "select a country", value: "" },
+        { label: "India", value: "india" },
+        { label: "Country 2", value: "country2" },
+        { label: "Country 3", value: "country3" },
+      ],
+      requiredMessage: "Please select country",
+    },
+  },
+];
+
+function App() {
+  const [inputRowList, setInputRowList] = useState(initialState);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const validate = () => {
@@ -90,6 +92,7 @@ function App() {
   useEffect(() => {
     if (isLoaded) {
       setValues();
+      setIsLoaded(false);
     }
   }, [isLoaded]);
 
@@ -124,6 +127,13 @@ function App() {
           onClick={getValues}
         >
           Console Values
+        </button>
+        <button
+          className={styles.btn}
+          style={{ background: "#143268" }}
+          onClick={() => setInputRowList(initialState)}
+        >
+          Clear
         </button>
       </div>
     </div>
